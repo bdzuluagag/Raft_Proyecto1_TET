@@ -10,16 +10,29 @@ import (
 	"sync"
 )
 
-var mutex = &sync.Mutex{}
-
-//const dbFile = "database.txt"
+var (
+	mutex    = &sync.Mutex{}
+	isLeader = false // Variable que define si este nodo es líder
+)
 
 func main() {
+	if len(os.Args) < 3 {
+		fmt.Println("Uso: cluster [puerto] [role: leader/follower]")
+		return
+	}
+	port := os.Args[1]
+	role := os.Args[2]
+
+	// Definir si es líder o follower
+	if role == "leader" {
+		isLeader = true
+	}
+
 	http.HandleFunc("/write", writeHandler)
 	http.HandleFunc("/read/", readHandler)
 
-	fmt.Println("Líder escuchando en el puerto 8081")
-	http.ListenAndServe(":8081", nil)
+	fmt.Printf("Cluster %s corriendo en el puerto %s\n", role, port)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func writeHandler(w http.ResponseWriter, r *http.Request) {
@@ -65,7 +78,7 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 
 // AppendToFile agrega la clave y el valor al archivo
 func appendToFile(key, value string) error {
-	file, err := os.OpenFile("C:/Users/Usuario/Documents/go_projects/Raft_Proyecto1_TET/database.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile("/home/brayan/Documentos/Raft_Proyecto1_TET/database.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		return err
 	}
@@ -77,7 +90,7 @@ func appendToFile(key, value string) error {
 
 // ReadFromFile lee el valor correspondiente a la clave del archivo
 func readFromFile(key string) (string, error) {
-	file, err := os.Open("C:/Users/Usuario/Documents/go_projects/Raft_Proyecto1_TET/database.txt")
+	file, err := os.Open("/home/brayan/Documentos/Raft_Proyecto1_TET/database.txt")
 	if err != nil {
 		return "", err
 	}

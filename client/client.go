@@ -1,26 +1,48 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 func main() {
-	// Ejemplo de escritura
-	writeData("exampleKey57", "exampleValue57")
+	reader := bufio.NewReader(os.Stdin)
 
-	// Ejemplo de lectura
-	readData("exampleKey57")
+	fmt.Println("¿Desea leer o escribir? (r/w)")
+	operation, _ := reader.ReadString('\n')
+	operation = operation[:len(operation)-1]
+
+	if operation == "w" {
+		fmt.Println("Ingrese la clave:")
+		key, _ := reader.ReadString('\n')
+		key = key[:len(key)-1]
+
+		fmt.Println("Ingrese el valor:")
+		value, _ := reader.ReadString('\n')
+		value = value[:len(value)-1]
+
+		writeData(key, value)
+	} else if operation == "r" {
+		fmt.Println("Ingrese la clave a leer:")
+		key, _ := reader.ReadString('\n')
+		key = key[:len(key)-1]
+
+		readData(key)
+	} else {
+		fmt.Println("Operación no válida")
+	}
 }
 
 func writeData(key, value string) {
 	data := map[string]string{"key": key, "value": value}
 
 	jsonData, err := json.Marshal(data)
-	
+
 	resp, err := http.Post("http://localhost:8080/write", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Println("Error al enviar la escritura:", err)
