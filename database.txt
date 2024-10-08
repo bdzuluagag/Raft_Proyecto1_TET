@@ -11,3 +11,5 @@ exampleKey5=exampleValue5
 exampleKey57=exampleValue57
 exampleKey57=exampleValue57
 200=brayan
+10=sofi
+11=canelita

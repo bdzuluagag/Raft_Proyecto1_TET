@@ -74,6 +74,8 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 	response := map[string]string{"key": key, "value": value}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
+
+	fmt.Printf("Lectura recibida: %s = %s\n", key, value)
 }
 
 // AppendToFile agrega la clave y el valor al archivo
