@@ -1,0 +1,12 @@
+exampleKey=exampleValue
+exampleKey=exampleValue
+exampleKey2=exampleValue2
+exampleKey3=exampleValue3
+exampleKey3=exampleValue3
+exampleKey4=exampleValue4
+exampleKey4=exampleValue4
+exampleKey5=exampleValue5
+exampleKey5=exampleValue5
+exampleKey5=exampleValue5
+exampleKey57=exampleValue57
+exampleKey57=exampleValue57
