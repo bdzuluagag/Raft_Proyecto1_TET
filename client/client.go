@@ -13,28 +13,34 @@ import (
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("¿Desea leer o escribir? (r/w)")
-	operation, _ := reader.ReadString('\n')
-	operation = operation[:len(operation)-1]
+	for {
+		fmt.Println("*******************************************************************************")
+		fmt.Println("¿Desea leer, escribir o salir? (r/w/s)")
+		operation, _ := reader.ReadString('\n')
+		operation = operation[:len(operation)-1]
 
-	if operation == "w" {
-		fmt.Println("Ingrese la clave:")
-		key, _ := reader.ReadString('\n')
-		key = key[:len(key)-1]
+		if operation == "w" {
+			fmt.Println("Ingrese la clave:")
+			key, _ := reader.ReadString('\n')
+			key = key[:len(key)-1]
 
-		fmt.Println("Ingrese el valor:")
-		value, _ := reader.ReadString('\n')
-		value = value[:len(value)-1]
+			fmt.Println("Ingrese el valor:")
+			value, _ := reader.ReadString('\n')
+			value = value[:len(value)-1]
 
-		writeData(key, value)
-	} else if operation == "r" {
-		fmt.Println("Ingrese la clave a leer:")
-		key, _ := reader.ReadString('\n')
-		key = key[:len(key)-1]
+			writeData(key, value)
+		} else if operation == "r" {
+			fmt.Println("Ingrese la clave a leer:")
+			key, _ := reader.ReadString('\n')
+			key = key[:len(key)-1]
 
-		readData(key)
-	} else {
-		fmt.Println("Operación no válida")
+			readData(key)
+		} else if operation == "s" {
+			fmt.Println("Saliendo del servicio...")
+			break
+		} else {
+			fmt.Println("Operación no válida")
+		}
 	}
 }
 

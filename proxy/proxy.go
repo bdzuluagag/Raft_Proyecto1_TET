@@ -1,17 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 )
 
-const (
-	leaderURL    = "http://localhost:8081" // Asegúrate de que este puerto sea el del líder
-	followerURL1 = "http://localhost:8082" // Primer seguidor
-	followerURL2 = "http://localhost:8083" // Segundo seguidor
-)
+var leaderURL = "http://localhost:9081" // Se actualizará dinámicamente
 
 func main() {
 	if len(os.Args) < 2 {
@@ -28,6 +25,9 @@ func main() {
 }
 
 func writeHandler(w http.ResponseWriter, r *http.Request) {
+	// Verificar dinámicamente quién es el líder
+	leaderURL = detectLeader()
+
 	// Redirigir al líder
 	fmt.Println("Redirecting write to leader")
 	resp, err := http.Post(leaderURL+"/write", "application/json", r.Body)
@@ -51,9 +51,9 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 	// Redirigir a un follower aleatorio
 	var followerURL string
 	if key[len(key)-1]%2 == 0 { // Simple condición para redirigir entre followers
-		followerURL = followerURL1
+		followerURL = "http://localhost:9082"
 	} else {
-		followerURL = followerURL2
+		followerURL = "http://localhost:9083"
 	}
 
 	// Redirigir al primer seguidor
@@ -68,4 +68,29 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(resp.StatusCode)
 	body, _ := ioutil.ReadAll(resp.Body)
 	w.Write(body)
+}
+
+func detectLeader() string {
+	// Lista de posibles nodos (líder o followers)
+	nodes := []string{"http://localhost:9081", "http://localhost:9082", "http://localhost:9083"}
+
+	for _, node := range nodes {
+		resp, err := http.Get(node + "/is_leader")
+		if err != nil {
+			fmt.Printf("Error al consultar el nodo %s: %v\n", node, err)
+			continue
+		}
+		defer resp.Body.Close()
+
+		var result map[string]bool
+		err = json.NewDecoder(resp.Body).Decode(&result)
+		if err == nil && result["is_leader"] {
+			fmt.Printf("Nodo líder detectado en: %s\n", node)
+			return node
+		}
+	}
+
+	// Si no se encuentra un líder, devuelve el valor predeterminado (8081)
+	fmt.Println("Líder no detectado, usando valor predeterminado.")
+	return "http://localhost:9081"
 }
