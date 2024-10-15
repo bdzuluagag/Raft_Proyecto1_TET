@@ -66,8 +66,8 @@ func main() {
 		fmt.Println("Uso: cluster [puerto_raft] [puerto_http]")
 		return
 	}
-	portRaft := os.Args[1] // Puerto para Raft
-	portHTTP := os.Args[2] // Puerto para HTTP
+	portRaft := os.Args[1]  // Puerto para Raft
+	portHTTP := os.Args[2]  // Puerto para HTTP
 
 	initializeRaft(portRaft)
 	setupHTTPServer(portHTTP)

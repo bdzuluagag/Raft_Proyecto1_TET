@@ -46,22 +46,26 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 func readHandler(w http.ResponseWriter, r *http.Request) {
 	// Obtener la clave desde la URL
 	key := r.URL.Path[len("/read/"):] // Extraer la clave de la ruta
-	fmt.Println("Redirecting read to follower")
 
-	// Redirigir a un follower aleatorio
-	var followerURL string
-	if key[len(key)-1]%2 == 0 { // Simple condición para redirigir entre followers
-		followerURL = "http://localhost:9082"
-	} else {
-		followerURL = "http://localhost:9083"
-	}
+	// Redirigir a un follower basado en la clave
+	var followerURLs = []string{"http://localhost:9082", "http://localhost:9083"}
+	firstFollower := followerURLs[key[len(key)-1]%2]      // Determina cuál intentar primero
+	secondFollower := followerURLs[(key[len(key)-1]+1)%2] // El otro follower
 
-	// Redirigir al primer seguidor
-	resp, err := http.Get(followerURL + "/read/" + key) // Usar la clave correcta
+	// Primero intenta con el primer follower
+	fmt.Println("Redirecting read to follower:", firstFollower)
+	resp, err := http.Get(firstFollower + "/read/" + key)
 	if err != nil {
-		http.Error(w, "Failed to read from follower", http.StatusInternalServerError)
-		return
+		// Si falla, intenta con el segundo follower
+		fmt.Printf("Error al leer del follower %s: %v. Intentando con el otro follower.\n", firstFollower, err)
+		resp, err = http.Get(secondFollower + "/read/" + key)
+		if err != nil {
+			// Si también falla, devolver error
+			http.Error(w, "Failed to read from both followers", http.StatusInternalServerError)
+			return
+		}
 	}
+
 	defer resp.Body.Close()
 
 	// Copiar el cuerpo de la respuesta
