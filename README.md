@@ -37,9 +37,6 @@ El sistema demostró un comportamiento robusto frente a fallos de nodos:
 
 - **Recuperación de Nodos**: Los nodos caídos se reintegraron al clúster de manera fluida y sincronizaron sus datos correctamente sin duplicación o pérdida de información.
 
-#### Conclusión
-El sistema es altamente tolerante a fallos, y el protocolo Raft manejó de manera eficiente la elección de líderes y la replicación de datos. Las pruebas y simulaciones confirman que el clúster puede continuar funcionando incluso en presencia de fallas de nodos y recuperarse de manera automática sin pérdida de consistencia en los datos.
-
 ## Código fuente: 
 Implementación del algoritmo de consenso y su integración con los procesos del sistema.
 
