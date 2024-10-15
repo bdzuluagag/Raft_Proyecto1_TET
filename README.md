@@ -36,10 +36,14 @@ El sistema demostró un comportamiento robusto frente a fallos de nodos:
 - **Tolerancia a Fallos de Followers**: Las operaciones de lectura pudieron continuar a pesar de la caída de un follower, y cuando ambos followers estuvieron caídos, el nodo líder mantuvo la integridad de las operaciones.
 
 - **Recuperación de Nodos**: Los nodos caídos se reintegraron al clúster de manera fluida y sincronizaron sus datos correctamente sin duplicación o pérdida de información.
+
 ---
+
 ### Código fuente: 
 Implementación del algoritmo de consenso y su integración con los procesos del sistema.
+
 ---
+
 ### Documentación técnica: 
 El algoritmo **Raft** es un protocolo de consenso diseñado para ser más fácil de entender que otros algoritmos, como Paxos, y se utiliza para gestionar un conjunto de réplicas en un sistema distribuido, garantizando que todas las réplicas acuerden el mismo conjunto de operaciones a aplicar. Raft divide el problema de consenso en tres subproblemas principales:
 
