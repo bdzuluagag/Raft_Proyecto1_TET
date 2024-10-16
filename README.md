@@ -1,3 +1,16 @@
+# Proyecto N1: Algoritmo de consenso Raft
+## Integrantes:
+- Sofía Mendieta Marín
+- Brayan David Zuluaga Giraldo
+## Asignatura:
+- Tópicos Especiales de Telemática
+- Docente Juan Carlos Montoya Mendoza
+- Universidad EAFIT
+## Video Sustentación:
+https://youtu.be/v6W5W1ptg4M
+
+---
+
 ### Documentación técnica: 
 El algoritmo **Raft** es un protocolo de consenso diseñado para ser más fácil de entender que otros algoritmos, como Paxos, y se utiliza para gestionar un conjunto de réplicas en un sistema distribuido, garantizando que todas las réplicas acuerden el mismo conjunto de operaciones a aplicar. Raft divide el problema de consenso en tres subproblemas principales:
 
