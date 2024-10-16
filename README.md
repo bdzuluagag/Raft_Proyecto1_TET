@@ -50,7 +50,7 @@ Raft garantiza la **consistencia y disponibilidad** del sistema mediante los sig
 - **Fallos del Líder**: Si el líder falla, se debe elegir un nuevo líder rápidamente para minimizar la indisponibilidad del sistema. Esto se maneja con timeouts ajustados.
 - **Particiones en la Red**: Si se produce una partición en la red, Raft garantiza que al menos un subgrupo con una mayoría podrá seguir funcionando.
 - **Actualización de Seguidores Retrasados**: Los seguidores que se retrasan deben ser actualizados por el líder para mantener la consistencia del sistema.
-
+---
 ### Análisis Detallado de las Pruebas Realizadas y Simulación de Fallos
 
 #### 1. **Pruebas Funcionales**
@@ -89,7 +89,7 @@ El sistema demostró un comportamiento robusto frente a fallos de nodos:
 - **Tolerancia a Fallos de Followers**: Las operaciones de lectura pudieron continuar a pesar de la caída de un follower, y cuando ambos followers estuvieron caídos, el nodo líder mantuvo la integridad de las operaciones.
 
 - **Recuperación de Nodos**: Los nodos caídos se reintegraron al clúster de manera fluida y sincronizaron sus datos correctamente sin duplicación o pérdida de información.
-
+---
 ### Implementación del Algoritmo de Consenso e Integración con los Procesos del Sistema
 
 #### 1. **Algoritmo de Consenso: Raft**
